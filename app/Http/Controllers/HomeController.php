@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\User\User;
+use App\Facades\Settings;
 
 class HomeController extends Controller {
     /*
@@ -33,10 +35,14 @@ class HomeController extends Controller {
         } else {
             $gallerySubmissions = [];
         }
+        if(Settings::get('featured_member')) {
+            $user = User::find(Settings::get('featured_member'));
+        }
 
         return view('welcome', [
             'about'               => SitePage::where('key', 'about')->first(),
             'gallerySubmissions'  => $gallerySubmissions,
+            'featured_member'            => $user,
         ]);
     }
 

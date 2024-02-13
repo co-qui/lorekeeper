@@ -83,6 +83,8 @@ class AddSiteSettings extends Command {
 
         $this->addSiteSetting('comment_dislikes_enabled', 0, '0: Dislikes disabled, 1: Dislikes enabled.');
 
+        $this->addSiteSetting('featured_member', 1, 'ID of the currently featured member.');
+
         $this->line("\nSite settings up to date!");
     }
 
