@@ -46,6 +46,10 @@ return [
             [
                 'name' => 'Pages',
                 'url' => 'admin/pages'
+            ],
+            [
+                'name' => 'Guides',
+                'url' => 'admin/guides'
             ]
         ]
     ],

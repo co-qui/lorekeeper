@@ -106,6 +106,9 @@
                         <a class="dropdown-item" href="{{ url('world') }}">
                             Encyclopedia
                         </a>
+                        <a class="dropdown-item" href="{{ url('guides') }}">
+                            Guides
+                        </a>
                         <a class="dropdown-item" href="{{ url('prompts/prompts') }}">
                             Prompts
                         </a>

@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Models\Guide;
+
+use Config;
+use App\Models\Model;
+
+class GuideCategory extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'sort', 'image_name', 'description', 'parsed_description'
+    ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'guide_categories';
+    
+    /**
+     * Validation rules for creation.
+     *
+     * @var array
+     */
+    public static $createRules = [
+        'name' => 'required|unique:guide_categories|between:3,100',
+        'description' => 'nullable',
+        'image' => 'mimes:png,jpg',
+    ];
+    
+    /**
+     * Validation rules for updating.
+     *
+     * @var array
+     */
+    public static $updateRules = [
+        'name' => 'required|between:3,100',
+        'description' => 'nullable',
+        'image' => 'mimes:png,jpg',
+    ];
+
+    /**********************************************************************************************
+
+        RELATIONS
+
+    **********************************************************************************************/
+
+    /**
+     * Get the category of this feature.
+     */
+    public function guides()
+    {
+        return $this->hasMany('App\Models\Guide\GuidePage', 'category_id')->orderBy('sort', 'DESC');
+    }
+
+    /**********************************************************************************************
+    
+        ACCESSORS
+
+    **********************************************************************************************/
+    
+    /**
+     * Displays the model's name, linked to its encyclopedia page.
+     *
+     * @return string
+     */
+    public function getDisplayNameAttribute()
+    {
+        return '<a href="'.$this->url.'" class="display-category">'.$this->name.'</a>';
+    }
+
+    /**
+     * Gets the file directory containing the model's image.
+     *
+     * @return string
+     */
+    public function getImageDirectoryAttribute()
+    {
+        return 'images/data/guide-categories';
+    }
+
+    /**
+     * Gets the file name of the model's image.
+     *
+     * @return string
+     */
+    public function getCategoryImageFileNameAttribute()
+    {
+        return $this->image_name;
+    }
+
+    /**
+     * Gets the path to the file directory containing the model's image.
+     *
+     * @return string
+     */
+    public function getCategoryImagePathAttribute()
+    {
+        return public_path($this->imageDirectory);
+    }
+    
+    /**
+     * Gets the URL of the model's image.
+     *
+     * @return string
+     */
+    public function getCategoryImageUrlAttribute()
+    {
+        if (!$this->image_name) return null;
+        return asset($this->imageDirectory . '/' . $this->categoryImageFileName);
+    }
+}

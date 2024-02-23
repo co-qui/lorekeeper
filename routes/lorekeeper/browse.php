@@ -130,6 +130,16 @@ Route::group(['prefix' => 'shops'], function() {
 Route::get('credits', 'PageController@getCreditsPage');
 Route::get('info/{key}', 'PageController@getPage');
 
+
+/**************************************************************************************************
+    Guides
+**************************************************************************************************/
+Route::group(['prefix' => 'guides'], function() {
+    Route::get('/', 'GuidePageController@getIndex');
+    Route::get('{id}.{slug?}', 'GuidePageController@getGuide');
+    Route::get('{id}.', 'GuidePageController@getGuide');
+});
+
 /**************************************************************************************************
     Raffles
 **************************************************************************************************/

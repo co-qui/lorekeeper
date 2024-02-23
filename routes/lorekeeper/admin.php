@@ -239,8 +239,32 @@ Route::group(['prefix' => 'pages', 'middleware' => 'power:edit_pages'], function
     Route::post('create', 'PageController@postCreateEditPage');
     Route::post('edit/{id?}', 'PageController@postCreateEditPage');
     Route::post('delete/{id}', 'PageController@postDeletePage');
+
 });
 
+
+# GUIDES
+Route::group(['prefix' => 'guides', 'middleware' => 'power:edit_pages'], function() {
+
+    Route::get('/', 'GuidePageController@getIndex');
+    Route::get('create', 'GuidePageController@getCreatePage');
+    Route::get('edit/{id}', 'GuidePageController@getEditPage');
+    Route::get('delete/{id}', 'GuidePageController@getDeletePage');
+    Route::post('create', 'GuidePageController@postCreateEditPage');
+    Route::post('edit/{id?}', 'GuidePageController@postCreateEditPage');
+    Route::post('delete/{id}', 'GuidePageController@postDeletePage');
+    Route::post('sort', 'GuidePageController@postSort');
+
+    Route::get('categories', 'GuidePageController@getCategoryIndex');
+    Route::get('categories/create', 'GuidePageController@getCreateCategory');
+    Route::get('categories/edit/{id}', 'GuidePageController@getEditCategory');
+    Route::get('categories/delete/{id}', 'GuidePageController@getDeleteCategory');
+    Route::post('categories/create', 'GuidePageController@postCreateEditCategory');
+    Route::post('categories/edit/{id?}', 'GuidePageController@postCreateEditCategory');
+    Route::post('categories/delete/{id}', 'GuidePageController@postDeleteCategory');
+    Route::post('categories/sort', 'GuidePageController@postSortCategory');
+
+});
 
 # NEWS
 Route::group(['prefix' => 'news', 'middleware' => 'power:edit_pages'], function() {
