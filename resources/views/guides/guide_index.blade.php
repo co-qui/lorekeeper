@@ -21,12 +21,12 @@
         @endif
         <div class="{{ $category->image_name ? 'col-md-9' : 'col-12' }}">
             <ul class="list-group">
-                    @foreach($category->guides as $guide)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a class="h5 m-0" href="{{ $guide->url }}">{{ $guide->title }}</a>
-                        <i class="text-muted">{!! format_date($guide->updated_at) !!} </i>
-                    </li>
-                    @endforeach
+                @foreach($category->guides as $guide)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a class="h5 m-0" href="{{ $guide->url }}">{{ $guide->title }}</a>
+                    <i class="text-muted">{!! format_date($guide->updated_at) !!} </i>
+                </li>
+                @endforeach
             </ul>
         </div>
     </div>
@@ -38,7 +38,7 @@
 <div class="card mt-3">
     <h5 class="card-header">Misc</h5>
     <div class="card-body">
-        <ul>
+        <ul class="p-0">
             @foreach($guidesWithoutCategory as $guide)
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a class="h5 m-0" href="{{ $guide->url }}">{{ $guide->title }}</a>
