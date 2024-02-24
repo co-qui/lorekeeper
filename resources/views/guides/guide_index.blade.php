@@ -36,6 +36,7 @@
 
 @endforeach
 
+@if(count($guidesWithoutCategory) > 0)
 <div class="card mt-3">
     <h5 class="card-header">Misc</h5>
     <div class="card-body">
@@ -49,5 +50,6 @@
         </ul>
     </div>
 </div>
+@endif
 
 @endsection
