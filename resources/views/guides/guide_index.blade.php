@@ -20,6 +20,7 @@
         </div>
         @endif
         <div class="{{ $category->image_name ? 'col-md-9' : 'col-12' }}">
+            <div>{!! $category->parsed_description !!}</div>
             <ul class="list-group">
                 @foreach($category->guides as $guide)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
