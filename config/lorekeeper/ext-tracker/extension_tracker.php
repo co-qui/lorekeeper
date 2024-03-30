@@ -12,7 +12,7 @@ return [
         'key'      => 'featured_member',
         'wiki_key' => 'Featured_Member',
         'creators' => json_encode([
-            'Newt' => 'https://github.com/ne-wt/',
+            'Newt'  => 'https://github.com/ne-wt/',
             'Coqui' => 'https://github.com/coquinuts/', //Created from the Featured Character ext by Newt!
         ]),
         'version' => '1.0.0',

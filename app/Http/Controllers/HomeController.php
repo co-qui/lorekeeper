@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Settings;
 use App\Models\Gallery\GallerySubmission;
 use App\Models\SitePage;
+use App\Models\User\User;
 use App\Services\LinkService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User\User;
-use App\Facades\Settings;
 
 class HomeController extends Controller {
     /*
@@ -35,13 +35,13 @@ class HomeController extends Controller {
         } else {
             $gallerySubmissions = [];
         }
-        if(Settings::get('featured_member')) {
+        if (Settings::get('featured_member')) {
             $user = User::find(Settings::get('featured_member'));
         }
 
         return view('welcome', [
-            'about'               => SitePage::where('key', 'about')->first(),
-            'gallerySubmissions'  => $gallerySubmissions,
+            'about'                      => SitePage::where('key', 'about')->first(),
+            'gallerySubmissions'         => $gallerySubmissions,
             'featured_member'            => $user,
         ]);
     }
