@@ -2,14 +2,12 @@
 
 namespace App\Console\Commands;
 
-use DB;
-use Settings;
-use Log;
-use Illuminate\Console\Command;
 use App\Models\Users\User;
+use DB;
+use Illuminate\Console\Command;
+use Settings;
 
-class ChangeFeatureMember extends Command
-{
+class ChangeFeatureMember extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -26,11 +24,8 @@ class ChangeFeatureMember extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -39,11 +34,10 @@ class ChangeFeatureMember extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         $id = User::random()->id;
         $setting = Settings::get('featured_member');
-        while($id == $setting) {
+        while ($id == $setting) {
             $id = User::random()->id;
         }
 
