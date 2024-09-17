@@ -78,8 +78,8 @@ class Character extends Model {
         'slug'                  => 'required|alpha_dash',
         'description'           => 'nullable',
         'sale_value'            => 'nullable',
-        'image'                 => 'required|mimes:jpeg,jpg,gif,png|max:20000',
-        'thumbnail'             => 'nullable|mimes:jpeg,jpg,gif,png|max:20000',
+        'image'                 => 'required|mimes:jpeg,jpg,gif,png|max:2048',
+        'thumbnail'             => 'nullable|mimes:jpeg,jpg,gif,png|max:2048',
         'owner_url'             => 'url|nullable',
     ];
 
@@ -94,6 +94,8 @@ class Character extends Model {
         'slug'                  => 'required',
         'description'           => 'nullable',
         'sale_value'            => 'nullable',
+        'image'                 => 'nullable|mimes:jpeg,jpg,gif,png|max:2048',
+        'thumbnail'             => 'nullable|mimes:jpeg,jpg,gif,png|max:2048',
     ];
 
     /**
@@ -109,8 +111,8 @@ class Character extends Model {
         'description' => 'nullable',
         'sale_value'  => 'nullable',
         'name'        => 'required',
-        'image'       => 'nullable|mimes:jpeg,gif,png|max:20000',
-        'thumbnail'   => 'nullable|mimes:jpeg,gif,png|max:20000',
+        'image'       => 'nullable|mimes:jpeg,gif,png|max:2048',
+        'thumbnail'   => 'nullable|mimes:jpeg,gif,png|max:2048',
     ];
 
     /**********************************************************************************************
@@ -213,10 +215,15 @@ class Character extends Model {
      * Scope a query to only include visible characters.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param mixed|null                            $user
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeVisible($query) {
+    public function scopeVisible($query, $user = null) {
+        if ($user && $user->hasPower('manage_characters')) {
+            return $query;
+        }
+
         return $query->where('is_visible', 1);
     }
 
