@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Handbook\HandbookCategory;
+use App\Models\Handbook\HandbookPage;
 use Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
-use App\Models\Handbook\HandbookPage;
-use App\Models\Handbook\HandbookCategory;
-
-class HandbookPageController extends Controller
-{
+class HandbookPageController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Handbook Page Controller
@@ -38,17 +33,17 @@ class HandbookPageController extends Controller
         }
 
         return view('handbooks.handbook_index', [
-            'categories' => HandbookCategory::orderBy('sort', 'DESC')->get(),
-            'handbooksWithoutCategory' => HandbookPage::where('category_id', null)->orderBy('sort', 'DESC')->get()
+            'categories'               => HandbookCategory::orderBy('sort', 'DESC')->get(),
+            'handbooksWithoutCategory' => HandbookPage::where('category_id', '==', null)->orderBy('sort', 'DESC')->get(),
         ]);
     }
 
-    
     /**
      * Shows a handbook.
      *
-     * @param  int          $id
-     * @param  string|null  $slug
+     * @param int         $id
+     * @param string|null $slug
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getHandbook($id, $slug = null)

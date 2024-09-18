@@ -5,17 +5,14 @@ namespace App\Models\Handbook;
 use App\Models\Model;
 use Illuminate\Support\Str;
 
-
-class HandbookPage extends Model
-{
-
+class HandbookPage extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'title', 'text', 'parsed_text', 'is_visible', 'sort', 'category_id'
+        'title', 'text', 'parsed_text', 'is_visible', 'sort', 'category_id',
     ];
 
     /**
@@ -31,7 +28,7 @@ class HandbookPage extends Model
      * @var string
      */
     public $timestamps = true;
-    
+
     /**
      * Validation rules for creation.
      *
@@ -39,9 +36,9 @@ class HandbookPage extends Model
      */
     public static $createRules = [
         'title' => 'required|between:3,150',
-        'text' => 'nullable',
+        'text'  => 'nullable',
     ];
-    
+
     /**
      * Validation rules for updating.
      *
@@ -49,7 +46,7 @@ class HandbookPage extends Model
      */
     public static $updateRules = [
         'title' => 'required|between:3,150',
-        'text' => 'nullable',
+        'text'  => 'nullable',
     ];
 
     /**********************************************************************************************
@@ -61,46 +58,40 @@ class HandbookPage extends Model
     /**
      * Get the category of this feature.
      */
-    public function category()
-    {
+    public function category() {
         return $this->belongsTo('App\Models\Handbook\HandbookCategory');
     }
 
-    
     /**********************************************************************************************
-    
+
         SCOPES
 
     **********************************************************************************************/
 
-
     /**
      * Scope a query to only include visible posts.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeVisible($query)
-    {
+    public function scopeVisible($query) {
         return $query->where('is_visible', 1);
     }
 
-
     /**********************************************************************************************
-    
+
         ACCESSORS
 
     **********************************************************************************************/
-
 
     /**
      * Get the handbook slug.
      *
      * @return bool
      */
-    public function getSlugAttribute()
-    {
-        return $this->id . '.' . Str::slug($this->title);
+    public function getSlugAttribute() {
+        return $this->id.'.'.Str::slug($this->title);
     }
 
     /**
@@ -108,8 +99,7 @@ class HandbookPage extends Model
      *
      * @return string
      */
-    public function getDisplayNameAttribute()
-    {
+    public function getDisplayNameAttribute() {
         return '<a href="'.$this->url.'">'.$this->title.'</a>';
     }
 
@@ -118,8 +108,7 @@ class HandbookPage extends Model
      *
      * @return string
      */
-    public function getUrlAttribute()
-    {
+    public function getUrlAttribute() {
         return url('handbooks/'.$this->slug);
     }
 }
