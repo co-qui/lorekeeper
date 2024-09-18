@@ -13,5 +13,4 @@
 @endsection
 
 @section('sidebar')
-
 @endsection
