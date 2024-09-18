@@ -27,7 +27,7 @@ class HandbookPageController extends Controller
     }
     
     /**
-     * Shows the create page page. 
+     * Shows the create page. 
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
