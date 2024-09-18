@@ -21,10 +21,10 @@ class HandbookPageController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getIndex()
-    {
+    public function getIndex() {
         if (!Auth::check() || !Auth::user()->isStaff) {
             flash('You do not have the permission to access this page.')->error();
+
             return redirect('/');
         }
 
@@ -46,10 +46,10 @@ class HandbookPageController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getHandbook($id, $slug = null)
-    {
+    public function getHandbook($id, $slug = null) {
         if (!Auth::check() || !Auth::user()->isStaff) {
             flash('You do not have the permission to access this page.')->error();
+
             return redirect('/');
         }
 
@@ -61,5 +61,4 @@ class HandbookPageController extends Controller {
 
         return view('handbooks.handbook', ['page' => $page]);
     }
-
 }
