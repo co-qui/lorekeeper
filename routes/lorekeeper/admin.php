@@ -249,10 +249,36 @@ Route::group(['prefix' => 'pages', 'middleware' => 'power:edit_pages'], function
     Route::post('create', 'PageController@postCreateEditPage');
     Route::post('edit/{id?}', 'PageController@postCreateEditPage');
     Route::post('delete/{id}', 'PageController@postDeletePage');
+
 });
 
-// NEWS
-Route::group(['prefix' => 'news', 'middleware' => 'power:manage_news'], function () {
+
+# GUIDES
+Route::group(['prefix' => 'handbooks', 'middleware' => 'power:edit_pages'], function() {
+
+    Route::get('/', 'HandbookPageController@getIndex');
+    Route::get('create', 'HandbookPageController@getCreatePage');
+    Route::get('edit/{id}', 'HandbookPageController@getEditPage');
+    Route::get('delete/{id}', 'HandbookPageController@getDeletePage');
+    Route::post('create', 'HandbookPageController@postCreateEditPage');
+    Route::post('edit/{id?}', 'HandbookPageController@postCreateEditPage');
+    Route::post('delete/{id}', 'HandbookPageController@postDeletePage');
+    Route::post('sort', 'HandbookPageController@postSort');
+
+    Route::get('categories', 'HandbookPageController@getCategoryIndex');
+    Route::get('categories/create', 'HandbookPageController@getCreateCategory');
+    Route::get('categories/edit/{id}', 'HandbookPageController@getEditCategory');
+    Route::get('categories/delete/{id}', 'HandbookPageController@getDeleteCategory');
+    Route::post('categories/create', 'HandbookPageController@postCreateEditCategory');
+    Route::post('categories/edit/{id?}', 'HandbookPageController@postCreateEditCategory');
+    Route::post('categories/delete/{id}', 'HandbookPageController@postDeleteCategory');
+    Route::post('categories/sort', 'HandbookPageController@postSortCategory');
+
+});
+
+# NEWS
+Route::group(['prefix' => 'news', 'middleware' => 'power:edit_pages'], function() {
+
     Route::get('/', 'NewsController@getIndex');
     Route::get('create', 'NewsController@getCreateNews');
     Route::get('edit/{id}', 'NewsController@getEditNews');
