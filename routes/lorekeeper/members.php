@@ -225,3 +225,12 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Route::post('/{id}/like/{action}', 'CommentController@like')->name('comments.like');
     Route::get('/liked', 'CommentController@getLikedComments');
 });
+
+/**************************************************************************************************
+    Staff Handbook
+**************************************************************************************************/
+Route::group(['prefix' => 'handbooks'], function () {
+    Route::get('/', 'HandbookPageController@getIndex');
+    Route::get('{id}.{slug?}', 'HandbookPageController@getHandbook');
+    Route::get('{id}.', 'HandbookPageController@getHandbook');
+});

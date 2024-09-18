@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery\GallerySubmission;
 use App\Models\SitePage;
-use App\Models\User\User;
 use App\Services\LinkService;
 use App\Services\UserService;
 use Illuminate\Http\Request;

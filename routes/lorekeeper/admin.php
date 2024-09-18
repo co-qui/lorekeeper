@@ -251,7 +251,7 @@ Route::group(['prefix' => 'pages', 'middleware' => 'power:edit_pages'], function
     Route::post('delete/{id}', 'PageController@postDeletePage');
 });
 
-// GUIDES
+// STAFF HANDBOOK
 Route::group(['prefix' => 'handbooks', 'middleware' => 'power:edit_pages'], function () {
     Route::get('/', 'HandbookPageController@getIndex');
     Route::get('create', 'HandbookPageController@getCreatePage');

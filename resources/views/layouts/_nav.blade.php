@@ -110,9 +110,11 @@
                         <a class="dropdown-item" href="{{ url('world') }}">
                             Encyclopedia
                         </a>
-                        <a class="dropdown-item" href="{{ url('handbooks') }}">
-                            Handbooks
-                        </a>
+                        @if(Auth::user()->isStaff)
+                            <a class="dropdown-item" href="{{ url('handbooks') }}">
+                                Handbooks
+                            </a>
+                        @endif
                         <a class="dropdown-item" href="{{ url('prompts/prompts') }}">
                             Prompts
                         </a>
