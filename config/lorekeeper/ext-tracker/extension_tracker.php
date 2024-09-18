@@ -13,12 +13,12 @@ return [
     // ],
 
     'staff_guide_pages' => [
-        'key' => 'staff_guide_pages',
+        'key'      => 'staff_guide_pages',
         'wiki_key' => 'Staff Guide Pages',
         'creators' => json_encode([
             'Cylunny' => 'https://toyhou.se/cylunny',
-            'coqui' => 'https://toyhou.se/co-qui', //All credit to Cyl! I just made it staff-onlly!
+            'coqui'   => 'https://toyhou.se/co-qui', //All credit to Cyl! I just made it staff-onlly!
         ]),
-        'version' => '1.0.0', 
+        'version' => '1.0.0',
     ],
 ];
