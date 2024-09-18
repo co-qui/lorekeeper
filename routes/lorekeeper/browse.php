@@ -132,11 +132,10 @@ Route::group(['prefix' => 'shops'], function () {
 Route::get('credits', 'PageController@getCreditsPage');
 Route::get('info/{key}', 'PageController@getPage');
 
-
 /**************************************************************************************************
     Handbooks
 **************************************************************************************************/
-Route::group(['prefix' => 'handbooks'], function() {
+Route::group(['prefix' => 'handbooks'], function () {
     Route::get('/', 'HandbookPageController@getIndex');
     Route::get('{id}.{slug?}', 'HandbookPageController@getHandbook');
     Route::get('{id}.', 'HandbookPageController@getHandbook');

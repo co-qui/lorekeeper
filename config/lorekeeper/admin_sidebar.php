@@ -63,13 +63,13 @@ return [
         'links' => [
             [
                 'name' => 'Pages',
-                'url' => 'admin/pages'
+                'url'  => 'admin/pages',
             ],
             [
                 'name' => 'Handbooks',
-                'url' => 'admin/handbooks'
-            ]
-        ]
+                'url'  => 'admin/handbooks',
+            ],
+        ],
     ],
     'Users'      => [
         'power' => 'edit_user_info',
