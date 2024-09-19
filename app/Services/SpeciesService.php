@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Models\Character\CharacterImage;
 use App\Models\Species\Species;
-use App\Models\Species\Subtype;
 use App\Models\Species\SpeciesFeature;
+use App\Models\Species\Subtype;
 use Illuminate\Support\Facades\DB;
 
 class SpeciesService extends Service {
@@ -49,8 +49,8 @@ class SpeciesService extends Service {
             }
 
             //Moonwolf Required Feature stuff
-            foreach($data['species_required_feature'] as $reqfeatureId) {
-                if($reqfeatureId) {
+            foreach ($data['species_required_feature'] as $reqfeatureId) {
+                if ($reqfeatureId) {
                     // Find the category by its ID
                     $category = FeatureCategory::find($reqfeatureId);
                     // If the category exists, use its ID. Otherwise, use null.
@@ -58,7 +58,7 @@ class SpeciesService extends Service {
                     // Create the SpeciesFeature with the category ID
                     $species_required_feature = SpeciesFeature::create(['species_id' => $species->id, 'name' => $categoryId]);
                 }
-            };
+            }
 
             return $this->commitReturn($species);
         } catch (\Exception $e) {
@@ -74,6 +74,7 @@ class SpeciesService extends Service {
      * @param \App\Models\Species\Species $species
      * @param array                       $data
      * @param \App\Models\User\User       $user
+     * @param mixed|null                  $species_required_feature
      *
      * @return \App\Models\Species\Species|bool
      */
@@ -102,9 +103,8 @@ class SpeciesService extends Service {
             // Clear old features
             $species->speciesFeatures()->delete();
 
-
-            foreach($data['species_required_feature'] as $reqfeatureId) {
-                if($reqfeatureId) {
+            foreach ($data['species_required_feature'] as $reqfeatureId) {
+                if ($reqfeatureId) {
                     // Find the category by its ID
                     $category = FeatureCategory::find($reqfeatureId);
                     // If the category exists, use its ID. Otherwise, use null.
@@ -112,7 +112,7 @@ class SpeciesService extends Service {
                     // Create the SpeciesFeature with the category ID
                     $species_required_feature = SpeciesFeature::create(['species_id' => $species->id, 'name' => $categoryId]);
                 }
-            };                       
+            }
 
             if ($species) {
                 $this->handleImage($image, $species->speciesImagePath, $species->speciesImageFileName);

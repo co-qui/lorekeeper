@@ -296,7 +296,7 @@ Route::group(['prefix' => 'grants', 'namespace' => 'Users', 'middleware' => 'pow
 Route::group(['prefix' => 'masterlist', 'namespace' => 'Characters', 'middleware' => 'power:manage_characters'], function () {
     Route::get('create-character', 'CharacterController@getCreateCharacter');
     Route::post('create-character', 'CharacterController@postCreateCharacter');
-    
+
     Route::get('get-species-features', 'CharacterController@getSpeciesFeatures');
 
     Route::get('get-number', 'CharacterController@getPullNumber');
