@@ -110,7 +110,7 @@
                         <a class="dropdown-item" href="{{ url('world') }}">
                             Encyclopedia
                         </a>
-                        @if(Auth::user()->isStaff)
+                        @if (Auth::user()->isStaff)
                             <a class="dropdown-item" href="{{ url('handbooks') }}">
                                 Handbooks
                             </a>
