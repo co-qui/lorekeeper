@@ -49,6 +49,26 @@
         {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help('If turned off, the species will not be visible in the species list or available for selection in search and design updates. Permissioned staff will still be able to add them to characters, however.') !!}
     </div>
 
+    <div class="form-group">
+        <h5>{!! Form::label('Required Trait Categories') !!} {!! add_help('Setting categories here will make it so that creatures of this species must have at least 1 trait from each required category to be created.') !!}</h5>
+        <div id="featureList">
+            @foreach ($existingcategories as $feature)
+                <div class="feature-row d-flex mb-2">
+                    {!! Form::select('species_required_feature[]', $categories, $feature, ['class' => 'form-control mr-2 feature-select', 'placeholder' => 'Select Trait']) !!}
+                    <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    
+    <div id="featureList">
+        <div><a href="#" class="btn btn-primary" id="add-feature">Add Category</a></div>
+        <div class="feature-row hide mb-2">
+            {!! Form::select('species_required_feature[]', $categories, null, ['class' => 'form-control mr-2 feature-select', 'placeholder' => 'Select Trait']) !!}
+            <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
+        </div>
+    </div>
+
     <div class="text-right">
         {!! Form::submit($species->id ? 'Edit' : 'Create', ['class' => 'btn btn-primary']) !!}
     </div>

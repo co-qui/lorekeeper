@@ -13,7 +13,8 @@ class Species extends Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'sort', 'has_image', 'description', 'parsed_description', 'masterlist_sub_id', 'is_visible', 'hash',
+        'name', 'sort', 'has_image', 'description', 'parsed_description',
+        'masterlist_sub_id', 'is_visible', 'hash', 'species_required_feature',
     ];
 
     /**
@@ -69,6 +70,14 @@ class Species extends Model {
      */
     public function features() {
         return $this->hasMany(Feature::class);
+    }
+
+    /**
+     * Required Features
+     */
+    public function speciesFeatures()
+    {
+    return $this->hasMany('App\Models\Species\SpeciesFeature');
     }
 
     /**********************************************************************************************

@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Character\Sublist;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
+use App\Models\Species\SpeciesFeature;
+use App\Models\Feature\FeatureCategory;
+use App\Models\Feature\Feature;
+use App\Http\Controllers\FeatureController;
 use App\Services\SpeciesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,9 +41,15 @@ class SpeciesController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCreateSpecies() {
+
+        $categories = FeatureCategory::query();
+        $name = $request->get('name');
+        if($name) $categories->where('name', 'LIKE', '%'.$name.'%');
+
         return view('admin.specieses.create_edit_species', [
             'species'  => new Species,
             'sublists' => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
+            'categories' => FeatureCategory::pluck('name', 'id')->toArray(),
         ]);
     }
 
@@ -52,13 +62,20 @@ class SpeciesController extends Controller {
      */
     public function getEditSpecies($id) {
         $species = Species::find($id);
-        if (!$species) {
-            abort(404);
-        }
+        if (!$species) abort(404);
+        $categories = FeatureCategory::query();
+        $name = $request->get('name');
+        if($name) $categories->where('name', 'LIKE', '%'.$name.'%');
+
+        $existingcategories = SpeciesFeature::query();
+        $catname = $request->get('name');
+        if($catname) $existingcategories->where('name', 'LIKE', '%'.$catname.'%');
 
         return view('admin.specieses.create_edit_species', [
             'species'  => $species,
             'sublists' => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
+            'categories' => FeatureCategory::pluck('name', 'id')->toArray(),
+            'existingcategories' => SpeciesFeature::where('species_id', $species->id)->pluck('name')->toArray(),
         ]);
     }
 
@@ -74,8 +91,9 @@ class SpeciesController extends Controller {
         $id ? $request->validate(Species::$updateRules) : $request->validate(Species::$createRules);
         $data = $request->only([
             'name', 'description', 'image', 'remove_image', 'masterlist_sub_id', 'is_visible',
+            'species_required_feature',
         ]);
-        if ($id && $service->updateSpecies(Species::find($id), $data, Auth::user())) {
+        if ($id && $service->updateSpecies(Species::find($id), $data['species_required_feature'], Auth::user())) {
             flash('Species updated successfully.')->success();
         } elseif (!$id && $species = $service->createSpecies($data, Auth::user())) {
             flash('Species created successfully.')->success();

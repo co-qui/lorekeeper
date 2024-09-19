@@ -11,6 +11,7 @@ use App\Models\Feature\Feature;
 use App\Models\Rarity;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
+use App\Models\Species\SpeciesFeature;
 use App\Models\Trade;
 use App\Models\User\User;
 use App\Models\User\UserItem;
@@ -757,4 +758,20 @@ class CharacterController extends Controller {
             'slots' => Character::myo(1)->orderBy('id', 'DESC')->paginate(30),
         ]);
     }
+
+    /**
+     * Required Features
+     */
+    public function getSpeciesFeatures(Request $request)
+    {
+        $speciesId = $request->query('species');
+        $species_required_features = SpeciesFeature::where('species_id', $speciesId)
+            ->with('feature')  // Load the feature relationship
+            ->get()            // Get the results
+            ->pluck('feature.name')  // Pluck the name attribute from the feature relationship
+            ->toArray();       // Convert the collection to an array
+   
+        return response()->json($species_required_features);
+    }
+
 }

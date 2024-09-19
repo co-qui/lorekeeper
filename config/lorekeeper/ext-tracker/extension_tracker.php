@@ -8,12 +8,12 @@ return [
     'version'  => '1.4.0',
 
     //===============Coqui===============//
-    'Featured Member' => [
-        'key'      => 'featured_member',
-        'wiki_key' => 'Featured_Member',
+    'Required Trait Categories' => [
+        'key'      => 'required_trait_categories',
+        'wiki_key' => 'Required_Trait_Categories',
         'creators' => json_encode([
-            'Newt'  => 'https://github.com/ne-wt/',
-            'Coqui' => 'https://github.com/coquinuts/', //Created from the Featured Character ext by Newt!
+            'Moonwolf'  => '',
+            'Coqui' => 'https://github.com/coq-qui/', //Created by Moonwolf, uploaded by coqui!
         ]),
         'version' => '1.0.0',
     ],
