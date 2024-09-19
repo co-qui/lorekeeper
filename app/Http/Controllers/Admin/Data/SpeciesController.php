@@ -36,13 +36,12 @@ class SpeciesController extends Controller {
     /**
      * Shows the create species page.
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getCreateSpecies(Request $request) {
         // Initialize a query for FeatureCategory
         $categories = FeatureCategory::query();
-        
+
         // Get 'name' from the request and apply filter if it exists
         $name = $request->get('name');
         if ($name) {
@@ -51,7 +50,7 @@ class SpeciesController extends Controller {
 
         // Retrieve existing categories or define it as necessary
         $existingcategories = FeatureCategory::pluck('name', 'id')->toArray(); // Assuming this is what you're looking for
-        
+
         // Return the view with relevant data
         return view('admin.specieses.create_edit_species', [
             'species'            => new Species,
@@ -65,7 +64,6 @@ class SpeciesController extends Controller {
      * Shows the edit species page.
      *
      * @param int $id
-     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -104,29 +102,29 @@ class SpeciesController extends Controller {
      */
     public function postCreateEditSpecies(Request $request, SpeciesService $service, $id = null) {
         $id ? $request->validate(Species::$updateRules) : $request->validate(Species::$createRules);
-        
+
         $data = $request->only([
             'name', 'description', 'image', 'remove_image', 'masterlist_sub_id', 'is_visible',
             'species_required_feature',
         ]);
-        
+
         // Ensure species_required_feature is encoded as JSON if it's an array
         if (is_array($data['species_required_feature'])) {
             $data['species_required_feature'] = json_encode($data['species_required_feature']);
         }
-    
+
         if ($id && $service->updateSpecies(Species::find($id), $data['species_required_feature'], Auth::user())) {
             flash('Species updated successfully.')->success();
         } elseif (!$id && $species = $service->createSpecies($data, Auth::user())) {
             flash('Species created successfully.')->success();
-    
+
             return redirect()->to('admin/data/species/edit/'.$species->id);
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();
             }
         }
-    
+
         return redirect()->back();
     }
 
