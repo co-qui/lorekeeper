@@ -241,9 +241,9 @@
         <div class="form-group">
             <div id="featureList">
                 <div class="form-group" id="requiredtraits">
-                    @if(isset($data['species_required_feature']) && count($data['species_required_feature']) > 0)
+                    @if (isset($data['species_required_feature']) && count($data['species_required_feature']) > 0)
                         <ul>
-                            @foreach($data['species_required_feature'] as $reqfeatureId)
+                            @foreach ($data['species_required_feature'] as $reqfeatureId)
                                 <li>{{ $reqfeatureId }}</li>
                             @endforeach
                         </ul>
@@ -302,16 +302,16 @@
             });
             $.ajax({
                 type: "GET",
-                url: "{{ url('admin/masterlist/get-species-features') }}?species="+species,
+                url: "{{ url('admin/masterlist/get-species-features') }}?species=" + species,
                 dataType: "json"
-            }).done(function (res) {
+            }).done(function(res) {
                 var list = $("#featureList");
                 list.empty(); // Clear the current list
                 list.prepend("<p>Required Trait Categories:</p>"); // Add your text at the top of the list
                 $.each(res, function(index, $species_required_feature) {
                     list.append("<li>" + $species_required_feature + "</li>"); // Add each feature to the list
                 });
-            }).fail(function (jqXHR, textStatus, errorThrown) {
+            }).fail(function(jqXHR, textStatus, errorThrown) {
                 alert("AJAX call failed: " + textStatus + ", " + errorThrown);
             });
         });
