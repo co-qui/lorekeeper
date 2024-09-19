@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\Settings;
 use App\Models\Gallery\GallerySubmission;
 use App\Models\SitePage;
 use App\Models\User\User;
