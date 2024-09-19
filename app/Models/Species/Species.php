@@ -73,11 +73,10 @@ class Species extends Model {
     }
 
     /**
-     * Required Features
+     * Required Features.
      */
-    public function speciesFeatures()
-    {
-    return $this->hasMany('App\Models\Species\SpeciesFeature');
+    public function speciesFeatures() {
+        return $this->hasMany('App\Models\Species\SpeciesFeature');
     }
 
     /**********************************************************************************************

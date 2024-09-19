@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin\Data;
 
 use App\Http\Controllers\Controller;
 use App\Models\Character\Sublist;
-use App\Models\Species\Species;
-use App\Models\Species\Subtype;
-use App\Models\Species\SpeciesFeature;
 use App\Models\Feature\FeatureCategory;
-use App\Models\Feature\Feature;
-use App\Http\Controllers\FeatureController;
+use App\Models\Species\Species;
+use App\Models\Species\SpeciesFeature;
+use App\Models\Species\Subtype;
 use App\Services\SpeciesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,28 +71,26 @@ class SpeciesController extends Controller {
      */
     public function getEditSpecies($id, Request $request) {
         $species = Species::find($id);
-        if (!$species) abort(404);
-
-        // Filtering FeatureCategory based on name if provided
-        $categoriesQuery = FeatureCategory::query();
+        if (!$species) {
+            abort(404);
+        }
+        $categories = FeatureCategory::query();
         $name = $request->get('name');
         if ($name) {
-            $categoriesQuery->where('name', 'LIKE', '%'.$name.'%');
+            $categories->where('name', 'LIKE', '%'.$name.'%');
         }
-        $categories = $categoriesQuery->pluck('name', 'id')->toArray();
 
-        // Filtering SpeciesFeature based on name if provided
-        $existingCategoriesQuery = SpeciesFeature::query();
-        if ($name) {
-            $existingCategoriesQuery->where('name', 'LIKE', '%'.$name.'%');
+        $existingcategories = SpeciesFeature::query();
+        $catname = $request->get('name');
+        if ($catname) {
+            $existingcategories->where('name', 'LIKE', '%'.$catname.'%');
         }
-        $existingCategories = $existingCategoriesQuery->where('species_id', $species->id)->pluck('name')->toArray();
 
         return view('admin.specieses.create_edit_species', [
-            'species' => $species,
-            'sublists' => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
-            'categories' => $categories,
-            'existingcategories' => $existingCategories,
+            'species'            => $species,
+            'sublists'           => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
+            'categories'         => FeatureCategory::pluck('name', 'id')->toArray(),
+            'existingcategories' => SpeciesFeature::where('species_id', $species->id)->pluck('name')->toArray(),
         ]);
     }
 

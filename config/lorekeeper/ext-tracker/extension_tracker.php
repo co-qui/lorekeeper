@@ -13,7 +13,7 @@ return [
         'wiki_key' => 'Required_Trait_Categories',
         'creators' => json_encode([
             'Moonwolf'  => '',
-            'Coqui' => 'https://github.com/coq-qui/', //Created by Moonwolf, uploaded by coqui!
+            'Coqui'     => 'https://github.com/coq-qui/', //Created by Moonwolf, uploaded by coqui!
         ]),
         'version' => '1.0.0',
     ],

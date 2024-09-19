@@ -13,8 +13,8 @@ use App\Models\Character\CharacterFeature;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Sales\SalesCharacter;
-use App\Models\Species\Subtype;
 use App\Models\Species\SpeciesFeature;
+use App\Models\Species\Subtype;
 use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -110,36 +110,32 @@ class CharacterManager extends Service {
             }
 
             //Moonwolf Required Features stuff
-            if(isset($data['species_id']) && $data['species_id']) {
+            if (isset($data['species_id']) && $data['species_id']) {
                 $species = Species::find($data['species_id']);
                 $requiredFeatures = SpeciesFeature::where('species_id', $species->id)->pluck('name')->toArray();
 
-
                 // Get the feature category ids of the selected features from the form
                 $selected_feature_category_ids = [];
-                foreach($data['feature_id'] as $featureId) {
+                foreach ($data['feature_id'] as $featureId) {
                     $feature = Feature::find($featureId);
-                    if($feature && $feature->category) {
+                    if ($feature && $feature->category) {
                         $selected_feature_category_ids[] = $feature->category->id;
                     }
                 }
 
-
                 $missing_features = [];
-                foreach($requiredFeatures as $requiredFeature) {
-                    if(!in_array($requiredFeature, $selected_feature_category_ids)) { // check if the id is in the array of selected feature category ids
+                foreach ($requiredFeatures as $requiredFeature) {
+                    if (!in_array($requiredFeature, $selected_feature_category_ids)) { // check if the id is in the array of selected feature category ids
                         $missingCategory = FeatureCategory::find($requiredFeature); //change the id numbers back into actual words
-                        if($missingCategory) {
+                        if ($missingCategory) {
                             $missing_features[] = $missingCategory->name;
                         }
                     }
                 }
-   
-                if(!empty($missing_features)) {
-                    throw new \Exception('The character is missing a trait from the required categories: ' . implode(', ', $missing_features));
+
+                if (!empty($missing_features)) {
+                    throw new \Exception('The character is missing a trait from the required categories: '.implode(', ', $missing_features));
                 }
-
-
             }
 
             // Get owner info
