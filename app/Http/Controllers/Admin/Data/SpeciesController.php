@@ -38,18 +38,28 @@ class SpeciesController extends Controller {
     /**
      * Shows the create species page.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getCreateSpecies() {
-
+    public function getCreateSpecies(Request $request) {
+        // Initialize a query for FeatureCategory
         $categories = FeatureCategory::query();
+        
+        // Get 'name' from the request and apply filter if it exists
         $name = $request->get('name');
-        if($name) $categories->where('name', 'LIKE', '%'.$name.'%');
+        if ($name) {
+            $categories->where('name', 'LIKE', '%'.$name.'%');
+        }
 
+        // Retrieve existing categories or define it as necessary
+        $existingcategories = FeatureCategory::pluck('name', 'id')->toArray(); // Assuming this is what you're looking for
+        
+        // Return the view with relevant data
         return view('admin.specieses.create_edit_species', [
-            'species'  => new Species,
-            'sublists' => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
-            'categories' => FeatureCategory::pluck('name', 'id')->toArray(),
+            'species'            => new Species,
+            'sublists'           => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
+            'categories'         => $categories->pluck('name', 'id')->toArray(), // Use filtered categories
+            'existingcategories' => $existingcategories, // Pass the existingcategories to the view
         ]);
     }
 
@@ -57,25 +67,34 @@ class SpeciesController extends Controller {
      * Shows the edit species page.
      *
      * @param int $id
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getEditSpecies($id) {
+    public function getEditSpecies($id, Request $request) {
         $species = Species::find($id);
         if (!$species) abort(404);
-        $categories = FeatureCategory::query();
-        $name = $request->get('name');
-        if($name) $categories->where('name', 'LIKE', '%'.$name.'%');
 
-        $existingcategories = SpeciesFeature::query();
-        $catname = $request->get('name');
-        if($catname) $existingcategories->where('name', 'LIKE', '%'.$catname.'%');
+        // Filtering FeatureCategory based on name if provided
+        $categoriesQuery = FeatureCategory::query();
+        $name = $request->get('name');
+        if ($name) {
+            $categoriesQuery->where('name', 'LIKE', '%'.$name.'%');
+        }
+        $categories = $categoriesQuery->pluck('name', 'id')->toArray();
+
+        // Filtering SpeciesFeature based on name if provided
+        $existingCategoriesQuery = SpeciesFeature::query();
+        if ($name) {
+            $existingCategoriesQuery->where('name', 'LIKE', '%'.$name.'%');
+        }
+        $existingCategories = $existingCategoriesQuery->where('species_id', $species->id)->pluck('name')->toArray();
 
         return view('admin.specieses.create_edit_species', [
-            'species'  => $species,
+            'species' => $species,
             'sublists' => [0 => 'No Sublist'] + Sublist::orderBy('name', 'DESC')->pluck('name', 'id')->toArray(),
-            'categories' => FeatureCategory::pluck('name', 'id')->toArray(),
-            'existingcategories' => SpeciesFeature::where('species_id', $species->id)->pluck('name')->toArray(),
+            'categories' => $categories,
+            'existingcategories' => $existingCategories,
         ]);
     }
 
@@ -89,22 +108,29 @@ class SpeciesController extends Controller {
      */
     public function postCreateEditSpecies(Request $request, SpeciesService $service, $id = null) {
         $id ? $request->validate(Species::$updateRules) : $request->validate(Species::$createRules);
+        
         $data = $request->only([
             'name', 'description', 'image', 'remove_image', 'masterlist_sub_id', 'is_visible',
             'species_required_feature',
         ]);
+        
+        // Ensure species_required_feature is encoded as JSON if it's an array
+        if (is_array($data['species_required_feature'])) {
+            $data['species_required_feature'] = json_encode($data['species_required_feature']);
+        }
+    
         if ($id && $service->updateSpecies(Species::find($id), $data['species_required_feature'], Auth::user())) {
             flash('Species updated successfully.')->success();
         } elseif (!$id && $species = $service->createSpecies($data, Auth::user())) {
             flash('Species created successfully.')->success();
-
+    
             return redirect()->to('admin/data/species/edit/'.$species->id);
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {
                 flash($error)->error();
             }
         }
-
+    
         return redirect()->back();
     }
 

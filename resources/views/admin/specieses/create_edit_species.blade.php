@@ -50,7 +50,7 @@
     </div>
 
     <div class="form-group">
-        <h5>{!! Form::label('Required Trait Categories') !!} {!! add_help('Setting categories here will make it so that creatures of this species must have at least 1 trait from each required category to be created.') !!}</h5>
+        <h5>{!! Form::label('Required Trait Categories') !!} {!! add_help('Characters of this species are required to have at least 1 trait from each of these categories.') !!}</h5>
         <div id="featureList">
             @foreach ($existingcategories as $feature)
                 <div class="feature-row d-flex mb-2">
@@ -59,12 +59,11 @@
                 </div>
             @endforeach
         </div>
-    </div>
-    
-    <div id="featureList">
-        <div><a href="#" class="btn btn-primary" id="add-feature">Add Category</a></div>
-        <div class="feature-row hide mb-2">
-            {!! Form::select('species_required_feature[]', $categories, null, ['class' => 'form-control mr-2 feature-select', 'placeholder' => 'Select Trait']) !!}
+        <div class="mb-2">
+            <a href="#" class="btn btn-primary" id="add-feature">Add Category</a>
+        </div>
+        <div class="feature-row hide mb-2 d-none">
+            {!! Form::select('species_required_feature[]', $categories, null, ['class' => 'form-control mr-2 feature-select', 'placeholder' => 'Select Trait Category']) !!}
             <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
         </div>
     </div>
@@ -92,6 +91,17 @@
             $('.delete-species-button').on('click', function(e) {
                 e.preventDefault();
                 loadModal("{{ url('admin/data/species/delete') }}/{{ $species->id }}", 'Delete Species');
+            });
+
+            $('#add-feature').on('click', function(e) {
+                e.preventDefault();
+                const newFeatureRow = $('.feature-row.hide').clone().removeClass('hide d-none');
+                $('#featureList').append(newFeatureRow);
+            });
+
+            $('#featureList').on('click', '.remove-feature', function(e) {
+                e.preventDefault();
+                $(this).closest('.feature-row').remove();
             });
         });
     </script>

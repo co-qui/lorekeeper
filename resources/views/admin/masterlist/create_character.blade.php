@@ -216,22 +216,6 @@
         <h3>Traits</h3>
 
         <div class="form-group">
-            <div id="featureList">
-                <div class="form-group" id="requiredtraits">
-                    @if(isset($data['species_required_feature']) && count($data['species_required_feature']) > 0)
-                        <ul>
-                            @foreach($data['species_required_feature'] as $reqfeatureId)
-                                <li>{{ $reqfeatureId }}</li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <br>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
             {!! Form::label('Species') !!} @if ($isMyo)
                 {!! add_help('This will lock the slot into a particular species. Leave it blank if you would like to give the user a choice.') !!}
             @endif
@@ -252,6 +236,22 @@
                 {!! add_help('This will lock the slot into a particular rarity. Leave it blank if you would like to give the user more choices.') !!}
             @endif
             {!! Form::select('rarity_id', $rarities, old('rarity_id'), ['class' => 'form-control']) !!}
+        </div>
+
+        <div class="form-group">
+            <div id="featureList">
+                <div class="form-group" id="requiredtraits">
+                    @if(isset($data['species_required_feature']) && count($data['species_required_feature']) > 0)
+                        <ul>
+                            @foreach($data['species_required_feature'] as $reqfeatureId)
+                                <li>{{ $reqfeatureId }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <br>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
