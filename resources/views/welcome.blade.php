@@ -11,7 +11,3 @@
         @include('pages._logged_out')
     @endif
 @endsection
-
-@section('sidebar')
-    @include('pages._sidebar')
-@endsection
